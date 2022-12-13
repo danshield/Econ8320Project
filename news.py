@@ -1,9 +1,10 @@
 from gnews import GNews
-from article import Article
+from article import MyArticle
 import pandas as pd
+from newspaper import Config
 
-request = GNews(max_results=10)
-articles = [Article(request, a['title'], a['description'], a['published date'], a['url'], a['publisher']['title']) for a in request.get_news('+"Wagner group"')]
+request = GNews(max_results=100)
+articles = [MyArticle(request, a['title'], a['description'], a['published date'], a['url'], a['publisher']['title']) for a in request.get_news('+"Wagner group"')]
 
 [a.Init() for a in articles]
 
@@ -13,7 +14,7 @@ merged = list()
 unique = set(merged)
 
 df = pd.DataFrame(merged)
-df.columns = ('value','type')
+df.columns = ['value']
 df2 = df.groupby('value').count()
-df2 = df2.sort_values(by='type', ascending=False)
+#df2 = df2.sort_values(by='type', ascending=False)
 
