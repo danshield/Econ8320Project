@@ -13,6 +13,7 @@ class Article():
 
         self.entities = []
         self.doc = None
+        self.error = ""
 
     def __repr__(self):
         tmp = f'Title:        {self.title}\r\n'
@@ -58,4 +59,4 @@ class Article():
             self.entities = set(entities)                                                                                                
             self.doc = doc
         except:
-            print(f"Failing at {self.url}")
+            self.error = f"Failing at {self.url}"
