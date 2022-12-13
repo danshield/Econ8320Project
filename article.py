@@ -1,13 +1,13 @@
-import re
-from gnews import GNews
-import spacy
 from dateutil import parser
-from newspaper import Config
+from gnews import GNews
 from newspaper import Article
-import os
+from newspaper import Config
 from sutime import SUTime
 import dateparser
 import numpy as np
+import os
+import re
+import spacy
 
 
 class MyArticle():

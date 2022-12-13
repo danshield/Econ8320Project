@@ -1,7 +1,7 @@
-from gnews import GNews
 from article import MyArticle
-import pandas as pd
+from gnews import GNews
 from newspaper import Config
+import pandas as pd
 
 request = GNews(max_results=100)
 articles = [MyArticle(request, a['title'], a['description'], a['published date'], a['url'], a['publisher']['title']) for a in request.get_news('+"Wagner group"')]
@@ -17,4 +17,3 @@ df = pd.DataFrame(merged)
 df.columns = ['value']
 df2 = df.groupby('value').count()
 #df2 = df2.sort_values(by='type', ascending=False)
-
