@@ -1,6 +1,5 @@
 from article import MyArticle
 from gnews import GNews
-from newspaper import Config
 import pandas as pd
 
 request = GNews(max_results=100)
