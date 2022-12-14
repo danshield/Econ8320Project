@@ -1,5 +1,6 @@
 from article import MyArticle
 from gnews import GNews
+import numpy as np
 import pandas as pd
 
 request = GNews(max_results=100)
@@ -9,10 +10,19 @@ articles = [MyArticle(request, a['title'], a['description'], a['published date']
 
 merged = list()
 [merged.extend(a.entities) for a in articles if (len(a.entities) > 0)]
+unique = np.unique(merged)
 
-unique = set(merged)
+columns = [e for e in unique if (merged.count(e) > 3)]
 
-df = pd.DataFrame(merged)
-df.columns = ['value']
-df2 = df.groupby('value').count()
-#df2 = df2.sort_values(by='type', ascending=False)
+df = pd.DataFrame([(a.publisher, a.title, a.url, a.date) for a in articles], columns = ['Publisher','Title','URL','Date'])
+for column in columns:
+    list = []
+    for a in articles:
+        if (column in a.entities):
+            list.append(1)
+        else:
+            list.append(0)
+            
+    df[column] = list
+
+df.to_csv("Econ8320_Project.csv")

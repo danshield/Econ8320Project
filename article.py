@@ -26,9 +26,11 @@ class MyArticle():
         
         self.sutime = self._init_parsers()
 
+    
     def _init_parsers(self):
         jar_files = os.path.join(os.path.dirname(__file__), 'jars')
         return SUTime(jars=jar_files, mark_time_ranges=True)
+
         
     def __repr__(self):
         tmp = f'Title:        {self.title}\r\n'
@@ -41,8 +43,7 @@ class MyArticle():
 
     
     def clean_text(self, e):
-        tmp = e.text.replace('\n','')
-        tmp = tmp.replace('the ', '')
+        tmp = e.text.replace('\n','').replace('the ', '').replace('The ', '')
 
         return tmp
     
@@ -51,20 +52,18 @@ class MyArticle():
         if (e.label_ == 'GPE'):
             return True
         elif (e.label_ == 'PERSON'):
-            if (len(e.label_.split(' ')) > 1):
+            if (len(e.text.split(' ')) > 1):
                 return True
-#        elif (e.label_ == 'DATE'):
-#            if (' ' in e.text or len(e.text) > 4):
-#                return True
         else:
             return False
         
+    
     def get_dates(self, str):
         dates = self.sutime.parse(str)
         dates = [x['value'] for x in dates]
         
         dtFormat = '\d{4}-\d{2}-\d{2}'
-        return  [dateparser.parse(d).isoformat() for d in dates if (re.search(dtFormat, d))]
+        return  [dateparser.parse(d).strftime('%Y-%m-%d') for d in dates if (re.search(dtFormat, d))]
         
 
     def Init(self):
