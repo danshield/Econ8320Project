@@ -12,7 +12,7 @@ merged = list()
 [merged.extend(a.entities) for a in articles if (len(a.entities) > 0)]
 unique = np.unique(merged)
 
-columns = [e for e in unique if (merged.count(e) > 3)]
+columns = [e for e in unique if (merged.count(e) > (len(articles)*0.025))]
 
 df = pd.DataFrame([(a.publisher, a.title, a.url, a.date) for a in articles], columns = ['Publisher','Title','URL','Date'])
 for column in columns:
